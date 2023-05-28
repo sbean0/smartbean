@@ -1,0 +1,4 @@
+todo list self email from page
+use js sendMail
+can we get sports stats via react?
+make the to-do into a to-search list
