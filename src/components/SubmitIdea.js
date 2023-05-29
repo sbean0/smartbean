@@ -67,7 +67,7 @@ const SubmitIdea = () => {
 
   return (
     <div className="submit-idea">
-      <h2>Add Idea/Task in your Local Browser Storage</h2>
+      <h2>Adds Idea/Task in Local Browser Cache</h2>
       <form onSubmit={handleSubmitIdea}>
         <input
           type="text"
