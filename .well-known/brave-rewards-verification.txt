@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: smartbean.ai
+Token: b922f5acab0ba601bf36e3e42d17037499388d42e128298bd6c823d9b9e2c6ff
