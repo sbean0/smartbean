@@ -5,9 +5,9 @@ import SubmitIdea from './SubmitIdea';
 const Home = ({ blogPosts }) => {
   return (
     <div className="home">
-      <h2>Welcome to the Blog!</h2>
+      <h2>Welcome to the Blog! An AI and Human partnership</h2>
       <SubmitIdea /> {/* Add the IdeaTracker component here */}
-      <p>Check out the latest blog posts:</p>
+      <h3>Check out the latest AI assisted blog posts:</h3>
       <ul className="blog-list">
         {blogPosts.map((post) => (
           <li key={post.id} className="blog-item">

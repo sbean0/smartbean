@@ -26,7 +26,7 @@
 // };
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import './styles.css';
+import '../styles.css';
 
 const BlogPost = ({ blogPosts }) => {
   const { postId } = useParams();
@@ -40,7 +40,7 @@ const BlogPost = ({ blogPosts }) => {
   }
 
   return (
-    <div>
+    <div className="blogpost">
       <h2>{post.title}</h2>
       <p>{post.content}</p>
       <p>Author: {post.author}</p>

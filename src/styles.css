@@ -1,0 +1,94 @@
+/* styles.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 40px;
+  margin-bottom: 1px;
+}
+
+.home {
+  text-align: ceneter;
+  padding: 50px 150px;
+}
+.blogpost {
+  text-align: left;
+  padding: 50px 150px;
+}
+
+.blog-list {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-link {
+  margin-right: 10px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: lightblue;
+  padding: 10px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background-color: dodgerblue;
+}
+
+.navbar a:hover {
+  background-color: deepskyblue;
+}
+.nav-button {
+  padding: 4px 8px;
+  border: 1px solid #eff3f5;
+  background-color: #00a0e6;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.nav-button:hover {
+  background-color: #007bbf;
+  border-color: #2e414b;
+}
+
+
+.idea-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.idea-content {
+  flex-grow: 1;
+  padding: 5px;
+  text-align: left;
+  border-radius: 5px;
+  background-color: lightblue;
+}
+
+.idea-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 5px;
+}

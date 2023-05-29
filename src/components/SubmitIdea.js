@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import IdeaList from './IdeaList';
 
 const SubmitIdea = () => {
   const [idea, setIdea] = useState('');
@@ -13,18 +14,47 @@ const SubmitIdea = () => {
     }
   }, []);
 
+  // const handleSubmitIdea = (e) => {
+  //   e.preventDefault();
+
+  //   const ideas = [...savedIdeas, idea];
+  //   setSavedIdeas(ideas);
+  //   localStorage.setItem('ideas', JSON.stringify(ideas));
+
+  //   setIdea('');
+  //   setModalOpen(true);
+  // };
+
   const handleSubmitIdea = (e) => {
     e.preventDefault();
-
-    // Save the idea to localStorage
-    const ideas = [...savedIdeas, idea];
+  
+    const currentDate = new Date().toLocaleDateString();
+    const ideaWithDate = `${idea} (Added on ${currentDate})`;
+  
+    // Save the idea with date to localStorage
+    const ideas = [...savedIdeas, ideaWithDate];
+    setSavedIdeas(ideas);
     localStorage.setItem('ideas', JSON.stringify(ideas));
-
+  
     // Clear the input field
     setIdea('');
-
+  
     // Open the modal
     setModalOpen(true);
+  };
+  
+
+  const handleEditIdea = (index, updatedIdea) => {
+    const updatedIdeas = [...savedIdeas];
+    updatedIdeas[index] = updatedIdea;
+    setSavedIdeas(updatedIdeas);
+    localStorage.setItem('ideas', JSON.stringify(updatedIdeas));
+  };
+
+  const handleDeleteIdea = (index) => {
+    const updatedIdeas = savedIdeas.filter((_, i) => i !== index);
+    setSavedIdeas(updatedIdeas);
+    localStorage.setItem('ideas', JSON.stringify(updatedIdeas));
   };
 
   const handleInputChange = (e) => {
@@ -37,11 +67,11 @@ const SubmitIdea = () => {
 
   return (
     <div className="submit-idea">
-      <h2>Submit an Idea</h2>
+      <h2>Add Idea/Task in your Local Browser Storage</h2>
       <form onSubmit={handleSubmitIdea}>
         <input
           type="text"
-          placeholder="Enter your idea"
+          placeholder="Enter an idea/task to save"
           value={idea}
           onChange={handleInputChange}
         />
@@ -55,14 +85,11 @@ const SubmitIdea = () => {
       </Modal>
 
       {savedIdeas.length > 0 && (
-        <div className="previously-saved">
-          <h3>Previously Saved Ideas</h3>
-          <ul>
-            {savedIdeas.map((savedIdea, index) => (
-              <li key={index}>{savedIdea}</li>
-            ))}
-          </ul>
-        </div>
+        <IdeaList
+          ideas={savedIdeas}
+          onEditIdea={handleEditIdea}
+          onDeleteIdea={handleDeleteIdea}
+        />
       )}
     </div>
   );

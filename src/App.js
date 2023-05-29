@@ -19,7 +19,8 @@ const App = () => {
       <div className="App">
       <Navbar /> {/* Add the Navbar component */}
 
-        <h1 className="title">Minimalist Idea Tracker</h1>
+        <h1 className="title">Minimalist Idea Tracker and Tech Blog</h1>
+        <h2>under construction with the help of AI..</h2>
 
         <Routes>
           <Route exact path="/" element={<Home blogPosts={blogData} />} />
