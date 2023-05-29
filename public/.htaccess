@@ -1,0 +1,6 @@
+# For single-page applications
+RewriteEngine On
+RewriteBase /smartbean/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /smartbean/index.html [L]
