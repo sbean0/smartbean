@@ -19,6 +19,8 @@ const App = () => {
 
         <Routes>
           <Route exact path="/" element={<Home blogPosts={blogData} />} />
+          <Route path="/blog/*" element={<BlogList blogPosts={blogData} />} />
+
 
           <Route
             path="/blog/:postId"
@@ -30,7 +32,6 @@ const App = () => {
           />
 
           {/* Other routes and components */}
-          <Route path="/blog" element={<BlogList blogPosts={blogData} />} /> {/* Add this route */}
 
         </Routes>
       </div>
