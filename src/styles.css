@@ -1,17 +1,14 @@
 /* styles.css */
-@media (max-width: 768px) {
-  .home {
-    padding: 0;
-  }
 
-}
-
-@media (max-width: 768px) {
-  .blogpost {
-    
+@media (max-width: 767px) {
+  .home, .blogpost {
     padding: 0;
   }
 }
+
+
+
+
 
 
 body {
@@ -32,11 +29,12 @@ body {
 
 .home {
   text-align: center;
-  padding: 50px 150px;
+  padding: 50px 50px;
 }
 .blogpost {
   text-align: left;
-  padding: 50px 150px;
+  padding: 50px 50px;
+  line-height: 2;
 }
 
 .blog-list {
