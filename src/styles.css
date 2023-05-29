@@ -3,8 +3,12 @@
   .home {
     padding: 0;
   }
+
+}
+
+@media (max-width: 768px) {
   .blogpost {
-    text-align: left;
+    
     padding: 0;
   }
 }
