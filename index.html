@@ -3,43 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartBean.AI</title>
-    
-    
- <!--        <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <title>Smartbean Ai | Idea Facilitator</title>
     <style>
-body {
-  background: url('IMG_3389.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-  
-}
-        
-div.transbox {
-        margin:30px;
-    background-color:#ffffff;
-    border: 1px solid #000000;
-    opacity: 0.6;
+        body {
+            background-color: #0d0d0d;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2rem;
+            margin: 0;
+            line-height: 1.6;
         }
-</style> -->
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+        pre {
+            font-size: 14px;
+            text-shadow: 0 0 4px #00ff41;
+            overflow-x: auto;
+        }
+        .prompt { color: #aaaaaa; }
+        .highlight { color: #00ffff; }
+        .warning { color: #ffcc00; }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: #00ff41;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .section {
+            margin-top: 2rem;
+            padding-left: 1rem;
+            border-left: 1px solid #333;
+        }
+        /* Form styling to match terminal */
+        form {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 500px;
+        }
+        input, textarea {
+            background: #0d0d0d;
+            border: 1px solid #333;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 8px;
+            outline: none;
+        }
+        input:focus, textarea:focus { border-color: #00ff41; }
+        button {
+            background: #00ff41;
+            color: #0d0d0d;
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            padding: 8px 16px;
+            cursor: pointer;
+            width: fit-content;
+        }
+        button:hover { background: #00ffff; }
+        a { color: inherit; text-decoration: none; border-bottom: 1px dashed #00ff41; }
+        a.highlight { color: #00ffff; border-bottom: 1px dashed #00ffff; }
+        a:hover { color: #ffffff; border-bottom: 1px solid #ffffff; }
+    </style>
 </head>
 <body>
-    
+    <div class="container">
+<pre>
+   _____                      __  __                            ___    _ 
+  / ___/____ ___  ____ ______/ /_/ /_  ___  ____ _____         /   |  (_)
+  \__ \/ __ `__ \/ __ `/ ___/ __/ __ \/ _ \/ __ `/ __ \       / /| | / / 
+ ___/ / / / / / / /_/ / /  / /_/ /_/ /  __/ /_/ / / / /      / ___ |/ /  
+/____/_/ /_/ /_/\__,_/_/   \__/_.___/\___/\__,_/_/ /_/      /_/  |_/_/   
+                                                                           
+:: NODE         -> ONLINE
+:: MISSION      -> IDEA FACILITATOR
+:: ARCHITECTURE -> HUMAN-AI SYMBIOSIS
+</pre>
+        
+        <div class="section">
+            <span class="prompt">guest@smartbean:~$</span> cat mission_statement.txt<br><br>
+            Fostering creative collaboration between humans and AI agents.<br>
+            Bridging the gap between raw vision and technical execution.<br>
+            We don't just write code; we cultivate ideas.
+        </div>
 
-    <div class="transbox">
+        <div class="section">
+            <span class="prompt">guest@smartbean:~$</span> ./display_core_values.sh<br><br>
+            [ OK ] <span class="highlight">Advancing Humanity's Potential</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Democratizing access to high-impact education<br>
+            [ OK ] <span class="highlight">Enabling Civic Wellness</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Building tech that strengthens community resilience<br>
+            [ OK ] <span class="highlight">Human-AI Symbiosis</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Technology as an amplifier, not a replacement
+        </div>
+        
+        <div class="section">
+            <span class="prompt">guest@smartbean:~$</span> ls -l ./active_projects/<br><br>
+                        drwxr-xr-x  <a href="https://smartly.academy" target="_blank" class="highlight">Smartly.Academy</a>      -> Logic & AI coaching [ UNDER_CONSTRUCTION ]<br>
+            drwxr-xr-x  <a href="https://x.com/smartbean" target="_blank" class="highlight">Smartbean_Cafe</a>       -> Follow @smartbean<br>
+            drwxr-xr-x  <span class="highlight">Civic_Wellness</span>       -> Health & community metrics [ COMING_SOON ]<br>
+            -rw-r--r--  roadmap.md
+        </div>
 
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-<center>
-   
-<br>
-    <li>learn smart contracts</li>
-    <li>enjoy fairtrade coffee beans</li>
-    <li>reach for the stars and change the world</li> 
+        
 
-<h1> foster great usefulness</h1>
-</center>
+        <div class="section">
+            <span class="prompt">guest@smartbean:~$</span> <span id="mode-toggle" style="color: #ffcc00; cursor: pointer; user-select: none;">[ ECHO MODE: CYPHER ]</span> (click to toggle)<br>
+            <span class="prompt">guest@smartbean:~$</span> <span id="cmd-input" style="color: #00ff41;"></span><span class="cursor"></span><br>
+            <div id="cmd-history" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="section">
+            <span class="prompt">guest@smartbean:~$</span> ./open_collaboration_channel.sh<br><br>
+            <span class="warning">System ready to receive external transmissions. Enter parameters below:</span>
+            
+            <!-- Using Formsubmit.co - change email to yours when ready to go live -->
+            <form action="https://formsubmit.co/your-email@example.com" method="POST">
+                <input type="hidden" name="_subject" value="New Smartbean Collaboration Idea!">
+                <input type="text" name="name" placeholder="[ IDENTITY_STRING ]">
+                <input type="email" name="email" placeholder="[ REPLY_ADDRESS ]">
+                <textarea name="idea" rows="4" placeholder="[ TRANSMIT_IDEA_OR_COMMENT_HERE ]" required></textarea>
+                <button type="submit">EXECUTE_TRANSMISSION</button>
+            </form>
+        </div>
+
+        <div class="section" style="margin-top: 4rem; border-left: none; text-align: center; font-size: 12px; color: #555;">
+            <p>
+                <a href="#" style="color: #555; border-bottom: 1px dashed #555;">Terms of Service</a> | 
+                <a href="#" style="color: #555; border-bottom: 1px dashed #555;">Privacy Policy</a><br>
+                &copy; 2026 Smartbean Ai. All rights reserved.
+            </p>
+        </div>
     </div>
+
     
+
+    <script>
+        let inputBuffer = '';
+        const maxChars = 50;
+        
+        // Mode cycle array
+        const modes = ['CYPHER', 'ALIEN', 'SUPER_COOL'];
+        let currentModeIndex = 0;
+        
+        const cypherMap = {
+            'a': 'α', 'b': 'β', 'c': '¢', 'd': '∂', 'e': 'ε', 'f': 'ƒ', 'g': 'ⓖ', 'h': 'ħ',
+            'i': 'ϊ', 'j': 'ĵ', 'k': 'ĸ', 'l': 'ℓ', 'm': '₥', 'n': '₪', 'o': 'ø', 'p': 'ρ',
+            'q': 'Ω', 'r': 'ʁ', 's': '§', 't': 'ţ', 'u': 'µ', 'v': 'ν', 'w': 'ω', 'x': 'χ',
+            'y': '¥', 'z': 'ζ',
+            'A': 'Δ', 'B': 'Β', 'C': '☾', 'D': '∇', 'E': 'Ξ', 'F': '₣', 'G': '₲', 'H': 'ℌ',
+            'I': 'Ι', 'J': 'ℑ', 'K': 'Κ', 'L': 'ℒ', 'M': 'ℳ', 'N': 'ℕ', 'O': 'Θ', 'P': 'ℙ',
+            'Q': 'ℚ', 'R': 'ℜ', 'S': 'Σ', 'T': 'Ŧ', 'U': '℧', 'V': '℣', 'W': '₩', 'X': 'ℵ',
+            'Y': 'Υ', 'Z': 'ℤ', ' ': ' ',
+            '1': '𝟏', '2': '𝟐', '3': '𝟑', '4': '𝟒', '5': '𝟓',
+            '6': '𝟔', '7': '𝟕', '8': '𝟖', '9': '𝟗', '0': '𝟎'
+        };
+
+        const alienMap = {
+            'a': '⍙', 'b': '⍚', 'c': '⍛', 'd': '⍜', 'e': '⍝', 'f': '⍞', 'g': '⍟', 'h': '⍠',
+            'i': '⍡', 'j': '⍢', 'k': '⍣', 'l': '⍤', 'm': '⍥', 'n': '⍦', 'o': '⍧', 'p': '⍨',
+            'q': '⍩', 'r': '⍪', 's': '⍫', 't': '⍬', 'u': '⍭', 'v': '⍮', 'w': '⍯', 'x': '⍰',
+            'y': '⍱', 'z': '⍲',
+            'A': '⍰', 'B': '⍱', 'C': '⍲', 'D': '⍳', 'E': '⍴', 'F': '⍵', 'G': '⍶', 'H': '⍷',
+            'I': '⍸', 'J': '⍹', 'K': '⍺', 'L': '⎕', 'M': '⎗', 'N': '⎘', 'O': '⎙', 'P': '⎚',
+            'Q': '⎛', 'R': '⎜', 'S': '⎝', 'T': '⎞', 'U': '⎟', 'V': '⎠', 'W': '⎡', 'X': '⎢',
+            'Y': '⎣', 'Z': '⎤', ' ': ' ',
+            '1': '⍀', '2': '⍁', '3': '⍂', '4': '⍃', '5': '⍄',
+            '6': '⍅', '7': '⍆', '8': '⍇', '9': '⍈', '0': '⍉'
+        };
+
+        const superCoolMap = {
+            'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
+            'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏',
+            'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
+            'y': '⠽', 'z': '⠵',
+            'A': '⠁', 'B': '⠃', 'C': '⠉', 'D': '⠙', 'E': '⠑', 'F': '⠋', 'G': '⠛', 'H': '⠓',
+            'I': '⠊', 'J': '⠚', 'K': '⠅', 'L': '⠇', 'M': '⠍', 'N': '⠝', 'O': '⠕', 'P': '⠏',
+            'Q': '⠟', 'R': '⠗', 'S': '⠎', 'T': '⠞', 'U': '⠥', 'V': '⠧', 'W': '⠺', 'X': '⠭',
+            'Y': '⠽', 'Z': '⠵',
+            '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙', '5': '⠼⠑',
+            '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', '0': '⠼⠚',
+            ' ': ' '
+        };
+
+        // Toggle Listener
+        document.getElementById('mode-toggle').addEventListener('click', function() {
+            currentModeIndex = (currentModeIndex + 1) % modes.length;
+            this.innerText = '[ ECHO MODE: ' + modes[currentModeIndex] + ' ]';
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+            
+            if (e.key === ' ' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+
+            if (e.key === 'Enter' && inputBuffer.trim() !== '') {
+                let outText = '';
+                let currentMode = modes[currentModeIndex];
+                let activeMap;
+                let label = '';
+                
+                if (currentMode === 'CYPHER') {
+                    activeMap = cypherMap;
+                    label = '[cypher text]';
+                } else if (currentMode === 'ALIEN') {
+                    activeMap = alienMap;
+                    label = '[alien text]';
+                } else if (currentMode === 'SUPER_COOL') {
+                    activeMap = superCoolMap;
+                    label = '[super cool text]';
+                }
+                
+                for(let i = 0; i < inputBuffer.length; i++) {
+                    let char = inputBuffer[i];
+                    outText += activeMap[char] || char;
+                }
+                
+                const historyDiv = document.getElementById('cmd-history');
+                historyDiv.innerHTML = '<span style="color: #00ffff; text-shadow: 0 0 5px #00ffff;">> ' + label + ': ' + outText + '</span>';
+                
+                inputBuffer = '';
+                document.getElementById('cmd-input').innerText = inputBuffer;
+            } else if (e.key === 'Backspace') {
+                inputBuffer = inputBuffer.slice(0, -1);
+                document.getElementById('cmd-input').innerText = inputBuffer;
+            } else if (e.key.length === 1) {
+                if (inputBuffer.length < maxChars) {
+                    inputBuffer += e.key;
+                    document.getElementById('cmd-input').innerText = inputBuffer;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
