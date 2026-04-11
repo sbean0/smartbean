@@ -131,8 +131,9 @@
             <!-- Using Formsubmit.co - change email to yours when ready to go live -->
             <form action="https://formsubmit.co/forms@smartbean.ai" method="POST">
                 <input type="hidden" name="_subject" value="New Smartbean Collaboration Idea!">
-                <input type="text" name="name" placeholder="[ IDENTITY_STRING ]">
-                <input type="email" name="email" placeholder="[ REPLY_ADDRESS ]">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="text" name="name" placeholder="[ IDENTITY_STRING (optional)]">
+                <input type="email" name="email" placeholder="[ REPLY_ADDRESS (optional)]">
                 <textarea name="idea" rows="4" placeholder="[ TRANSMIT_IDEA_OR_COMMENT_HERE ]" required></textarea>
                 <button type="submit">EXECUTE_TRANSMISSION</button>
             </form>
