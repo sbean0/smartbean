@@ -2,253 +2,200 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smartbean Ai | Idea Facilitator</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%230d0d0d%22/><circle cx=%2220%22 cy=%2232%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2220%22 cy=%2252%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2244%22 cy=%2212%22 r=%226%22 fill=%22%2300ff41%22/></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smartbean Ai</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text x='0' y='25' font-size='30' fill='%23000'>🫘</text></svg>">
     <style>
         body {
-            background-color: #0d0d0d;
-            color: #00ff41;
             font-family: 'Courier New', Courier, monospace;
-            padding: 2rem;
+            background-color: #000;
+            color: #0f0;
             margin: 0;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding-bottom: 4rem;
-        }
-        pre {
-            font-size: 14px;
-            text-shadow: 0 0 4px #00ff41;
-            overflow-x: auto;
-        }
-        .prompt { color: #aaaaaa; }
-        .highlight { color: #00ffff; }
-        .warning { color: #ffcc00; }
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2em;
-            background-color: #00ff41;
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        .section {
-            margin-top: 2rem;
-            padding-left: 1rem;
-            border-left: 1px solid #333;
-        }
-        /* Form styling to match terminal */
-        form {
-            margin-top: 1rem;
+            padding: 0;
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .terminal {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            -webkit-overflow-scrolling: touch;
+        }
+        .header {
+            text-align: center;
+            padding: 10px;
+            background-color: #111;
+            border-bottom: 1px solid #0f0;
+        }
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
             gap: 10px;
-            max-width: 500px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
-        input, textarea {
-            background: #0d0d0d;
-            border: 1px solid #333;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 8px;
-            outline: none;
-        }
-        input:focus, textarea:focus { border-color: #00ff41; }
-        button {
-            background: #00ff41;
-            color: #0d0d0d;
-            border: none;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            padding: 8px 16px;
+        .mode-btn {
+            background: none;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 5px 10px;
             cursor: pointer;
-            width: fit-content;
+            font-family: inherit;
+            min-width: 80px;
+            font-size: 14px;
         }
-        button:hover { background: #00ffff; }
-        a { color: inherit; text-decoration: none; border-bottom: 1px dashed #00ff41; }
-        a.highlight { color: #00ffff; border-bottom: 1px dashed #00ffff; }
-        a:hover { color: #ffffff; border-bottom: 1px solid #ffffff; }
+        .mode-btn.active {
+            background-color: #0f0;
+            color: #000;
+        }
+        .prompt {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #111;
+            border-top: 1px solid #0f0;
+            cursor: text;
+        }
+        .prompt::before {
+            content: "> ";
+            color: #0f0;
+            font-weight: bold;
+        }
+        .input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #0f0;
+            font-family: inherit;
+            outline: none;
+            font-size: 16px; /* Prevents auto-zoom on iOS */
+            caret-color: #0f0;
+        }
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+            border-left: 8px solid #0f0;
+            height: 1.2em;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .cypher { color: #f00; font-family: 'Wingdings'; }
+        .alien { color: #00f; letter-spacing: 2px; }
+        .super-cool { color: #ff0; text-shadow: 0 0 5px #ff0; }
+
+        /* Mobile optimizations */
+        @media (max-width: 600px) {
+            .header { padding: 5px; }
+            .mode-toggle { gap: 5px; }
+            .mode-btn { flex: 1; padding: 10px 5px; }
+            .terminal { padding: 10px; }
+            .prompt { padding: 12px 10px; }
+            h1 { font-size: 1.2em; margin: 5px 0; }
+            p { font-size: 0.9em; margin: 5px 0; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-<pre>
-   _____                      __  __                            ___    _ 
-  / ___/____ ___  ____ ______/ /_/ /_  ___  ____ _____         /   |  (_)
-  \__ \/ __ `__ \/ __ `/ ___/ __/ __ \/ _ \/ __ `/ __ \       / /| | / / 
- ___/ / / / / / / /_/ / /  / /_/ /_/ /  __/ /_/ / / / /      / ___ |/ /  
-/____/_/ /_/ /_/\__,_/_/   \__/_.___/\___/\__,_/_/ /_/      /_/  |_/_/   
-                                                                           
-:: NODE         -> ONLINE
-:: MISSION      -> IDEA FACILITATOR
-:: ARCHITECTURE -> HUMAN-AI SYMBIOSIS
-</pre>
-        
-        <div class="section">
-            <span class="prompt">guest@smartbean:~$</span> cat mission_statement.txt<br><br>
-            Fostering creative collaboration between humans and AI agents.<br>
-            Bridging the gap between raw vision and technical execution.<br>
-            We don't just write code; we cultivate ideas.
+    <div class="header">
+        <div class="mode-toggle">
+            <button class="mode-btn" onclick="setMode('normal')">NORMAL</button>
+            <button class="mode-btn" onclick="setMode('cypher')">CYPHER</button>
+            <button class="mode-btn" onclick="setMode('alien')">ALIEN</button>
+            <button class="mode-btn" onclick="setMode('super-cool')">SUPER COOL</button>
         </div>
-
-        <div class="section">
-            <span class="prompt">guest@smartbean:~$</span> ./display_core_values.sh<br><br>
-            [ OK ] <span class="highlight">Advancing Humanity's Potential</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Democratizing access to high-impact education<br>
-            [ OK ] <span class="highlight">Enabling Civic Wellness</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Building tech that strengthens community resilience<br>
-            [ OK ] <span class="highlight">Human-AI Symbiosis</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -> Technology as an amplifier, not a replacement
-        </div>
-        
-        <div class="section">
-            <span class="prompt">guest@smartbean:~$</span> ls -l ./active_projects/<br><br>
-                        drwxr-xr-x  <a href="https://smartly.academy" target="_blank" class="highlight">Smartly.Academy</a>      -> Logic & AI coaching [ UNDER_CONSTRUCTION ]<br>
-            drwxr-xr-x  <a href="https://x.com/smartbean" target="_blank" class="highlight">Smartbean_Cafe</a>       -> Follow @smartbean<br>
-            drwxr-xr-x  <span class="highlight">Civic_Wellness</span>       -> Health & community metrics [ COMING_SOON ]<br>
-            -rw-r--r--  roadmap.md
-        </div>
-
-        
-
-        <div class="section">
-            <span class="prompt">guest@smartbean:~$</span> <span id="mode-toggle" style="color: #ffcc00; cursor: pointer; user-select: none;">[ ECHO MODE: CYPHER ]</span> (click to toggle)<br>
-            <span class="prompt">guest@smartbean:~$</span> <span id="cmd-input" style="color: #00ff41;"></span><span class="cursor"></span><br>
-            <div id="cmd-history" style="margin-top: 10px;"></div>
-        </div>
-
-        <div class="section">
-            <span class="prompt">guest@smartbean:~$</span> ./open_collaboration_channel.sh<br><br>
-            <span class="warning">System ready to receive external transmissions. Enter parameters below:</span>
-            
-            <!-- Using Formsubmit.co - change email to yours when ready to go live -->
-            <form action="https://formsubmit.co/forms@smartbean.ai" method="POST">
-                <input type="hidden" name="_subject" value="New Smartbean Collaboration Idea!">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="text" name="name" placeholder="[ IDENTITY_STRING (optional)]">
-                <input type="email" name="email" placeholder="[ REPLY_ADDRESS (optional)]">
-                <textarea name="idea" rows="4" placeholder="[ TRANSMIT_IDEA_OR_COMMENT_HERE ]" required></textarea>
-                <button type="submit">EXECUTE_TRANSMISSION</button>
-            </form>
-        </div>
-
-        <div class="section" style="margin-top: 4rem; border-left: none; text-align: center; font-size: 12px; color: #555;">
-            <p>
-                <a href="terms.html" style="color: #555; border-bottom: 1px dashed #555;">Terms of Service</a> | 
-                <a href="privacy.html" style="color: #555; border-bottom: 1px dashed #555;">Privacy Policy</a><br>
-                &copy; 2026 Smartbean Ai. All rights reserved.
-            </p>
-        </div>
+        <h1>Smartbean Ai</h1>
+        <p>Advancing Humanity's Potential</p>
     </div>
-
-    
+    <div class="terminal" id="terminal">
+        <p>Welcome to Smartbean Ai.</p>
+        <p>Our mission is to advance humanity's potential through innovative AI solutions.</p>
+        <p>We specialize in:</p>
+        <ul>
+            <li>AI-powered learning tools</li>
+            <li>Mental wellness applications</li>
+            <li>Creative ideation platforms</li>
+            <li>Civic wellness initiatives</li>
+        </ul>
+        <p>Type "help" for available commands.</p>
+    </div>
+    <form class="prompt" onsubmit="handleEnter(event)">
+        <input type="text" class="input" id="input" autofocus autocomplete="off" autoconnect="off" spellcheck="false">
+        <span class="blinking-cursor" id="cursor"></span>
+    </form>
 
     <script>
-        let inputBuffer = '';
-        const maxChars = 50;
-        
-        // Mode cycle array
-        const modes = ['CYPHER', 'ALIEN', 'SUPER_COOL'];
-        let currentModeIndex = 0;
-        
-        const cypherMap = {
-            'a': 'α', 'b': 'β', 'c': '¢', 'd': '∂', 'e': 'ε', 'f': 'ƒ', 'g': 'ⓖ', 'h': 'ħ',
-            'i': 'ϊ', 'j': 'ĵ', 'k': 'ĸ', 'l': 'ℓ', 'm': '₥', 'n': '₪', 'o': 'ø', 'p': 'ρ',
-            'q': 'Ω', 'r': 'ʁ', 's': '§', 't': 'ţ', 'u': 'µ', 'v': 'ν', 'w': 'ω', 'x': 'χ',
-            'y': '¥', 'z': 'ζ',
-            'A': 'Δ', 'B': 'Β', 'C': '☾', 'D': '∇', 'E': 'Ξ', 'F': '₣', 'G': '₲', 'H': 'ℌ',
-            'I': 'Ι', 'J': 'ℑ', 'K': 'Κ', 'L': 'ℒ', 'M': 'ℳ', 'N': 'ℕ', 'O': 'Θ', 'P': 'ℙ',
-            'Q': 'ℚ', 'R': 'ℜ', 'S': 'Σ', 'T': 'Ŧ', 'U': '℧', 'V': '℣', 'W': '₩', 'X': 'ℵ',
-            'Y': 'Υ', 'Z': 'ℤ', ' ': ' ',
-            '1': '𝟏', '2': '𝟐', '3': '𝟑', '4': '𝟒', '5': '𝟓',
-            '6': '𝟔', '7': '𝟕', '8': '𝟖', '9': '𝟗', '0': '𝟎'
-        };
+        const terminal = document.getElementById('terminal');
+        const input = document.getElementById('input');
+        const cursor = document.getElementById('cursor');
+        let currentMode = 'normal';
 
-        const alienMap = {
-            'a': '⍙', 'b': '⍚', 'c': '⍛', 'd': '⍜', 'e': '⍝', 'f': '⍞', 'g': '⍟', 'h': '⍠',
-            'i': '⍡', 'j': '⍢', 'k': '⍣', 'l': '⍤', 'm': '⍥', 'n': '⍦', 'o': '⍧', 'p': '⍨',
-            'q': '⍩', 'r': '⍪', 's': '⍫', 't': '⍬', 'u': '⍭', 'v': '⍮', 'w': '⍯', 'x': '⍰',
-            'y': '⍱', 'z': '⍲',
-            'A': '⍰', 'B': '⍱', 'C': '⍲', 'D': '⍳', 'E': '⍴', 'F': '⍵', 'G': '⍶', 'H': '⍷',
-            'I': '⍸', 'J': '⍹', 'K': '⍺', 'L': '⎕', 'M': '⎗', 'N': '⎘', 'O': '⎔', 'P': '⎚',
-            'Q': '⎛', 'R': '⎜', 'S': '⎝', 'T': '⎞', 'U': '⎟', 'V': '⎠', 'W': '⎡', 'X': '⎢',
-            'Y': '⎣', 'Z': '⎤', ' ': ' ',
-            '1': '⍀', '2': '⍁', '3': '⍂', '4': '⍃', '5': '⍄',
-            '6': '⍅', '7': '⍆', '8': '⍇', '9': '⍈', '0': '⍉'
-        };
+        function setMode(mode) {
+            document.body.className = mode;
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().replace(' ', '-') === mode);
+            });
+            input.focus();
+        }
 
-        const superCoolMap = {
-            'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
-            'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏',
-            'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
-            'y': '⠽', 'z': '⠵',
-            'A': '⠁', 'B': '⠃', 'C': '⠉', 'D': '⠙', 'E': '⠑', 'F': '⠋', 'G': '⠛', 'H': '⠓',
-            'I': '⠊', 'J': '⠚', 'K': '⠅', 'L': '⠇', 'M': '⠍', 'N': '⠝', 'O': '⠕', 'P': '⠏',
-            'Q': '⠟', 'R': '⠗', 'S': '⠎', 'T': '⠞', 'U': '⠥', 'V': '⠧', 'W': '⠺', 'X': '⠭',
-            'Y': '⠽', 'Z': '⠵',
-            '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙', '5': '⠼⠑',
-            '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', '0': '⠼⠚',
-            ' ': ' '
-        };
-
-        // Toggle Listener
-        document.getElementById('mode-toggle').addEventListener('click', function() {
-            currentModeIndex = (currentModeIndex + 1) % modes.length;
-            this.innerText = '[ ECHO MODE: ' + modes[currentModeIndex] + ' ]';
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.ctrlKey || e.altKey || e.metaKey) return;
-            
-            if (e.key === ' ' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                e.preventDefault();
+        function handleEnter(event) {
+            event.preventDefault();
+            const command = input.value.trim();
+            if (command) {
+                terminal.innerHTML += `<div>> ${command}</div>`;
+                processCommand(command);
+                input.value = '';
+            } else {
+                terminal.innerHTML += `<div>> </div>`;
             }
+            terminal.scrollTop = terminal.scrollHeight;
+            input.focus();
+        }
 
-            if (e.key === 'Enter' && inputBuffer.trim() !== '') {
-                let outText = '';
-                let currentMode = modes[currentModeIndex];
-                let activeMap;
-                let label = '';
-                
-                if (currentMode === 'CYPHER') {
-                    activeMap = cypherMap;
-                    label = '[pseudo cypher text]';
-                } else if (currentMode === 'ALIEN') {
-                    activeMap = alienMap;
-                    label = '[alien-ish text]';
-                } else if (currentMode === 'SUPER_COOL') {
-                    activeMap = superCoolMap;
-                    label = '[super cool touch text]';
-                }
-                
-                for(let i = 0; i < inputBuffer.length; i++) {
-                    let char = inputBuffer[i];
-                    outText += activeMap[char] || char;
-                }
-                
-                const historyDiv = document.getElementById('cmd-history');
-                historyDiv.innerHTML = '<span style="color: #00ffff; text-shadow: 0 0 5px #00ffff;">> ' + label + ': ' + outText + '</span>';
-                
-                inputBuffer = '';
-                document.getElementById('cmd-input').innerText = inputBuffer;
-            } else if (e.key === 'Backspace') {
-                inputBuffer = inputBuffer.slice(0, -1);
-                document.getElementById('cmd-input').innerText = inputBuffer;
-            } else if (e.key.length === 1) {
-                if (inputBuffer.length < maxChars) {
-                    inputBuffer += e.key;
-                    document.getElementById('cmd-input').innerText = inputBuffer;
-                }
+        function processCommand(command) {
+            let response = '';
+            const cmd = command.toLowerCase().split(' ')[0];
+            const args = command.substring(cmd.length).trim();
+
+            switch (cmd) {
+                case 'help':
+                    response = 'Available commands: help, about, projects, contact, echo [text], clear';
+                    break;
+                case 'about':
+                    response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
+                    break;
+                case 'projects':
+                    response = 'Our projects include Smartly Academy, WellCity, and more.';
+                    break;
+                case 'contact':
+                    response = 'Email us at info@smartbean.ai';
+                    break;
+                case 'echo':
+                    response = args ? args : 'Usage: echo [text]';
+                    break;
+                case 'clear':
+                    terminal.innerHTML = '';
+                    return;
+                default:
+                    response = `Command not recognized: ${cmd}. Type "help" for available commands.`;
             }
-        });
+            terminal.innerHTML += `<div>${response}</div>`;
+        }
+
+        // Keep input focused
+        document.addEventListener('click', () => input.focus());
+        
+        // Hide/show blinking cursor based on input focus
+        input.addEventListener('focus', () => cursor.style.display = 'inline-block');
+        input.addEventListener('blur', () => cursor.style.display = 'none');
+
+        // Initialize normal mode
+        setMode('normal');
     </script>
 </body>
 </html>
