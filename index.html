@@ -31,27 +31,6 @@
             background-color: #111;
             border-bottom: 1px solid #0f0;
         }
-        .mode-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        .mode-btn {
-            background: none;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-family: inherit;
-            min-width: 80px;
-            font-size: 14px;
-        }
-        .mode-btn.active {
-            background-color: #0f0;
-            color: #000;
-        }
         .prompt {
             display: flex;
             align-items: center;
@@ -72,7 +51,7 @@
             color: #0f0;
             font-family: inherit;
             outline: none;
-            font-size: 16px; /* Prevents auto-zoom on iOS */
+            font-size: 16px;
             caret-color: #0f0;
         }
         .blinking-cursor {
@@ -84,15 +63,9 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-        .cypher { color: #f00; font-family: 'Wingdings'; }
-        .alien { color: #00f; letter-spacing: 2px; }
-        .super-cool { color: #ff0; text-shadow: 0 0 5px #ff0; }
 
-        /* Mobile optimizations */
         @media (max-width: 600px) {
             .header { padding: 5px; }
-            .mode-toggle { gap: 5px; }
-            .mode-btn { flex: 1; padding: 10px 5px; }
             .terminal { padding: 10px; }
             .prompt { padding: 12px 10px; }
             h1 { font-size: 1.2em; margin: 5px 0; }
@@ -102,12 +75,6 @@
 </head>
 <body>
     <div class="header">
-        <div class="mode-toggle">
-            <button class="mode-btn" onclick="setMode('normal')">NORMAL</button>
-            <button class="mode-btn" onclick="setMode('cypher')">CYPHER</button>
-            <button class="mode-btn" onclick="setMode('alien')">ALIEN</button>
-            <button class="mode-btn" onclick="setMode('super-cool')">SUPER COOL</button>
-        </div>
         <h1>Smartbean Ai</h1>
         <p>Advancing Humanity's Potential</p>
     </div>
@@ -124,7 +91,7 @@
         <p>Type "help" for available commands.</p>
     </div>
     <form class="prompt" onsubmit="handleEnter(event)">
-        <input type="text" class="input" id="input" autofocus autocomplete="off" autoconnect="off" spellcheck="false">
+        <input type="text" class="input" id="input" autofocus autocomplete="off" spellcheck="false">
         <span class="blinking-cursor" id="cursor"></span>
     </form>
 
@@ -132,16 +99,6 @@
         const terminal = document.getElementById('terminal');
         const input = document.getElementById('input');
         const cursor = document.getElementById('cursor');
-        let currentMode = 'normal';
-
-        function setMode(mode) {
-            document.body.className = mode;
-            currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase().replace(' ', '-') === mode);
-            });
-            input.focus();
-        }
 
         function handleEnter(event) {
             event.preventDefault();
@@ -187,15 +144,9 @@
             terminal.innerHTML += `<div>${response}</div>`;
         }
 
-        // Keep input focused
         document.addEventListener('click', () => input.focus());
-        
-        // Hide/show blinking cursor based on input focus
         input.addEventListener('focus', () => cursor.style.display = 'inline-block');
         input.addEventListener('blur', () => cursor.style.display = 'none');
-
-        // Initialize normal mode
-        setMode('normal');
     </script>
 </body>
 </html>
