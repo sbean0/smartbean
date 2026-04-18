@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smartbean Ai</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text x='0' y='25' font-size='30' fill='%23000'>🫘</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%230d0d0d%22/><circle cx=%2220%22 cy=%2232%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2220%22 cy=%2252%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2244%22 cy=%2212%22 r=%226%22 fill=%22%2300ff41%22/></svg>">
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -81,13 +81,6 @@
     <div class="terminal" id="terminal">
         <p>Welcome to Smartbean Ai.</p>
         <p>Our mission is to advance humanity's potential through innovative AI solutions.</p>
-        <p>We specialize in:</p>
-        <ul>
-            <li>AI-powered learning tools</li>
-            <li>Mental wellness applications</li>
-            <li>Creative ideation platforms</li>
-            <li>Civic wellness initiatives</li>
-        </ul>
         <p>Type "help" for available commands.</p>
     </div>
     <form class="prompt" onsubmit="handleEnter(event)">
@@ -100,6 +93,18 @@
         const input = document.getElementById('input');
         const cursor = document.getElementById('cursor');
 
+        const brailleMap = {
+            'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
+            'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏',
+            'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
+            'y': '⠽', 'z': '⠵', '0': '⠼⠚', '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙',
+            '5': '⠼⠑', '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', ' ': ' '
+        };
+
+        function toBraille(text) {
+            return text.toLowerCase().split('').map(c => brailleMap[c] || c).join('');
+        }
+
         function handleEnter(event) {
             event.preventDefault();
             const command = input.value.trim();
@@ -107,8 +112,6 @@
                 terminal.innerHTML += `<div>> ${command}</div>`;
                 processCommand(command);
                 input.value = '';
-            } else {
-                terminal.innerHTML += `<div>> </div>`;
             }
             terminal.scrollTop = terminal.scrollHeight;
             input.focus();
@@ -116,30 +119,35 @@
 
         function processCommand(command) {
             let response = '';
-            const cmd = command.toLowerCase().split(' ')[0];
-            const args = command.substring(cmd.length).trim();
+            const parts = command.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1).join(' ');
 
             switch (cmd) {
                 case 'help':
-                    response = 'Available commands: help, about, projects, contact, echo [text], clear';
+                    response = 'Commands: help, about, projects, contact, echo [--braille] [text], clear';
                     break;
                 case 'about':
                     response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
                     break;
                 case 'projects':
-                    response = 'Our projects include Smartly Academy, WellCity, and more.';
+                    response = 'Projects: Smartly Academy, WellCity, and more.';
                     break;
                 case 'contact':
-                    response = 'Email us at info@smartbean.ai';
+                    response = 'Email: info@smartbean.ai';
                     break;
                 case 'echo':
-                    response = args ? args : 'Usage: echo [text]';
+                    if (parts[1] === '--braille') {
+                        response = toBraille(parts.slice(2).join(' '));
+                    } else {
+                        response = args;
+                    }
                     break;
                 case 'clear':
                     terminal.innerHTML = '';
                     return;
                 default:
-                    response = `Command not recognized: ${cmd}. Type "help" for available commands.`;
+                    response = `Command not recognized: ${cmd}`;
             }
             terminal.innerHTML += `<div>${response}</div>`;
         }
