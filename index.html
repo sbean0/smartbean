@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="wanakana.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smartbean Ai</title>
@@ -88,11 +89,12 @@
     <span class="prompt-text">&gt; </span>
     <input type="text" class="input" id="input" autofocus autocomplete="off" spellcheck="false">
 </form>
+
 <script>
     const terminal = document.getElementById('terminal');
     const input = document.getElementById('input');
 
-    // Command history
+    // Command history (up to 5)
     let history = [];
     let historyIndex = -1;
 
@@ -109,22 +111,25 @@
     }
 
     function toJapanese(text) {
-        if (!text) return "🇯🇵 (Please provide text after --japanese)";
-        return `🇯🇵 ${text} （日本語）`;
+        if (!text.trim()) {
+            return "🇯🇵 Please provide text after --japanese";
+        }
+        // Convert to Katakana using the local WanaKana library
+        const katakana = wanakana.toKatakana(text);
+        return `🇯🇵 ${katakana}`;
     }
 
     function handleEnter(event) {
         event.preventDefault();
         const command = input.value.trim();
         if (command) {
-            // Add to history (keep only last 5)
             history.unshift(command);
             if (history.length > 5) history.pop();
 
             terminal.innerHTML += `<div>> ${command}</div>`;
             processCommand(command);
             input.value = '';
-            historyIndex = -1;        // Reset history position
+            historyIndex = -1;
         }
         terminal.scrollTop = terminal.scrollHeight;
         input.focus();
@@ -144,7 +149,7 @@
   contact                 - Contact info
   echo [text]             - Repeat text
   echo --braille [text]   - Convert to Braille
-  echo --japanese [text]  - Japanese style echo
+  echo --japanese [text]  - Convert to Katakana (Japanese)
   clear                   - Clear terminal`;
                 break;
             case 'about':
@@ -172,23 +177,19 @@
                 response = `Command not recognized: ${cmd}`;
         }
         terminal.innerHTML += `<div>${response}</div>`;
+        terminal.scrollTop = terminal.scrollHeight;
     }
 
-    // Keyboard navigation for command history
+    // Keyboard support for command history
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             handleEnter(e);
-        } 
-        else if (e.key === 'ArrowUp') {
+        } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             if (history.length === 0) return;
-            
-            if (historyIndex < history.length - 1) {
-                historyIndex++;
-            }
+            if (historyIndex < history.length - 1) historyIndex++;
             input.value = history[historyIndex];
-        } 
-        else if (e.key === 'ArrowDown') {
+        } else if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (historyIndex > 0) {
                 historyIndex--;
@@ -202,5 +203,6 @@
 
     document.addEventListener('click', () => input.focus());
 </script>
+
 </body>
 </html>
