@@ -6,72 +6,81 @@
     <title>Smartbean Ai</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%230d0d0d%22/><circle cx=%2220%22 cy=%2232%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2220%22 cy=%2252%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2244%22 cy=%2212%22 r=%226%22 fill=%22%2300ff41%22/></svg>">
     <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #000;
-            color: #0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .terminal {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            -webkit-overflow-scrolling: touch;
-        }
-        .header {
-            text-align: center;
-            padding: 10px;
-            background-color: #111;
-            border-bottom: 1px solid #0f0;
-        }
-        .prompt {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background-color: #111;
-            border-top: 1px solid #0f0;
-            cursor: text;
-        }
-        .prompt::before {
-            content: "> ";
-            color: #0f0;
-            font-weight: bold;
-        }
-        .input {
-            flex: 1;
-            background: none;
-            border: none;
-            color: #0f0;
-            font-family: inherit;
-            outline: none;
-            font-size: 16px;
-            caret-color: #0f0;
-        }
-        .blinking-cursor {
-            animation: blink 1s step-end infinite;
-            margin-left: 2px;
-            border-left: 8px solid #0f0;
-            height: 1.2em;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #000;
+        color: #0f0;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .terminal {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        -webkit-overflow-scrolling: touch;
+    }
+    .header {
+        text-align: center;
+        padding: 10px;
+        background-color: #111;
+        border-bottom: 1px solid #0f0;
+    }
+    .prompt {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background-color: #111;
+        border-top: 1px solid #0f0;
+        cursor: text;
+        gap: 4px;
+    }
+    .prompt::before {
+        content: "> ";
+        color: #0f0;
+        font-weight: bold;
+        flex-shrink: 0;
+        user-select: none;
+    }
+    .input {
+        flex: 1;
+        background: none;
+        border: none;
+        color: #0f0;
+        font-family: inherit;
+        outline: none;
+        font-size: 16px;
+        caret-color: #0f0;
+        min-width: 0;                /* critical for flex */
+        padding: 0;
+        margin: 0;
+    }
+    .blinking-cursor {
+        animation: blink 1s step-end infinite;
+        border-left: 8px solid #0f0;
+        height: 1.2em;
+        flex-shrink: 0;
+        margin-left: 2px;
+    }
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+    @media (max-width: 600px) {
+        .header { padding: 5px; }
+        .terminal { padding: 10px; }
+        .prompt { padding: 12px 10px; }
+        h1 { font-size: 1.2em; margin: 5px 0; }
+        p { font-size: 0.9em; margin: 5px 0; }
+    }
+</style>
+    
+    
 
-        @media (max-width: 600px) {
-            .header { padding: 5px; }
-            .terminal { padding: 10px; }
-            .prompt { padding: 12px 10px; }
-            h1 { font-size: 1.2em; margin: 5px 0; }
-            p { font-size: 0.9em; margin: 5px 0; }
-        }
-    </style>
 </head>
 <body>
     <div class="header">
