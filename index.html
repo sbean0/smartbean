@@ -91,7 +91,10 @@
 <script>
     const terminal = document.getElementById('terminal');
     const input = document.getElementById('input');
-    const cursor = document.getElementById('cursor');
+
+    // Command history
+    let history = [];
+    let historyIndex = -1;
 
     const brailleMap = {
         'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
@@ -105,20 +108,23 @@
         return text.toLowerCase().split('').map(c => brailleMap[c] || c).join('');
     }
 
-    // Simple Japanese "echo" — you can enhance this later with real translation
     function toJapanese(text) {
-        // For now: just echo with a Japanese flair / note
-        // You can replace this with a real translation API later
-        return `🇯🇵 ${text} (日本語)`;
+        if (!text) return "🇯🇵 (Please provide text after --japanese)";
+        return `🇯🇵 ${text} （日本語）`;
     }
 
     function handleEnter(event) {
         event.preventDefault();
         const command = input.value.trim();
         if (command) {
+            // Add to history (keep only last 5)
+            history.unshift(command);
+            if (history.length > 5) history.pop();
+
             terminal.innerHTML += `<div>> ${command}</div>`;
             processCommand(command);
             input.value = '';
+            historyIndex = -1;        // Reset history position
         }
         terminal.scrollTop = terminal.scrollHeight;
         input.focus();
@@ -128,11 +134,18 @@
         let response = '';
         const parts = command.split(' ');
         const cmd = parts[0].toLowerCase();
-        const args = parts.slice(1).join(' ');
 
         switch (cmd) {
             case 'help':
-                response = 'Commands: help, about, projects, contact, echo [--braille|--japanese] [text], clear';
+                response = `Available commands:
+  help                    - Show this help
+  about                   - About Smartbean AI
+  projects                - Our projects
+  contact                 - Contact info
+  echo [text]             - Repeat text
+  echo --braille [text]   - Convert to Braille
+  echo --japanese [text]  - Japanese style echo
+  clear                   - Clear terminal`;
                 break;
             case 'about':
                 response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
@@ -149,7 +162,7 @@
                 } else if (parts[1] === '--japanese') {
                     response = toJapanese(parts.slice(2).join(' '));
                 } else {
-                    response = args;
+                    response = parts.slice(1).join(' ');
                 }
                 break;
             case 'clear':
@@ -161,9 +174,33 @@
         terminal.innerHTML += `<div>${response}</div>`;
     }
 
+    // Keyboard navigation for command history
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            handleEnter(e);
+        } 
+        else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (history.length === 0) return;
+            
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+            }
+            input.value = history[historyIndex];
+        } 
+        else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIndex > 0) {
+                historyIndex--;
+                input.value = history[historyIndex];
+            } else {
+                historyIndex = -1;
+                input.value = '';
+            }
+        }
+    });
+
     document.addEventListener('click', () => input.focus());
-    input.addEventListener('focus', () => { if (cursor) cursor.style.display = 'inline-block'; });
-    input.addEventListener('blur', () => { if (cursor) cursor.style.display = 'none'; });
 </script>
 </body>
 </html>
