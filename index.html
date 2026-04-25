@@ -88,74 +88,82 @@
     <span class="prompt-text">&gt; </span>
     <input type="text" class="input" id="input" autofocus autocomplete="off" spellcheck="false">
 </form>
+<script>
+    const terminal = document.getElementById('terminal');
+    const input = document.getElementById('input');
+    const cursor = document.getElementById('cursor');
 
-    <script>
-        const terminal = document.getElementById('terminal');
-        const input = document.getElementById('input');
-        const cursor = document.getElementById('cursor');
+    const brailleMap = {
+        'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
+        'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏',
+        'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
+        'y': '⠽', 'z': '⠵', '0': '⠼⠚', '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙',
+        '5': '⠼⠑', '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', ' ': ' '
+    };
 
-        const brailleMap = {
-            'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓',
-            'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏',
-            'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
-            'y': '⠽', 'z': '⠵', '0': '⠼⠚', '1': '⠼⠁', '2': '⠼⠃', '3': '⠼⠉', '4': '⠼⠙',
-            '5': '⠼⠑', '6': '⠼⠋', '7': '⠼⠛', '8': '⠼⠓', '9': '⠼⠊', ' ': ' '
-        };
+    function toBraille(text) {
+        return text.toLowerCase().split('').map(c => brailleMap[c] || c).join('');
+    }
 
-        function toBraille(text) {
-            return text.toLowerCase().split('').map(c => brailleMap[c] || c).join('');
+    // Simple Japanese "echo" — you can enhance this later with real translation
+    function toJapanese(text) {
+        // For now: just echo with a Japanese flair / note
+        // You can replace this with a real translation API later
+        return `🇯🇵 ${text} (日本語)`;
+    }
+
+    function handleEnter(event) {
+        event.preventDefault();
+        const command = input.value.trim();
+        if (command) {
+            terminal.innerHTML += `<div>> ${command}</div>`;
+            processCommand(command);
+            input.value = '';
         }
+        terminal.scrollTop = terminal.scrollHeight;
+        input.focus();
+    }
 
-        function handleEnter(event) {
-            event.preventDefault();
-            const command = input.value.trim();
-            if (command) {
-                terminal.innerHTML += `<div>> ${command}</div>`;
-                processCommand(command);
-                input.value = '';
-            }
-            terminal.scrollTop = terminal.scrollHeight;
-            input.focus();
+    function processCommand(command) {
+        let response = '';
+        const parts = command.split(' ');
+        const cmd = parts[0].toLowerCase();
+        const args = parts.slice(1).join(' ');
+
+        switch (cmd) {
+            case 'help':
+                response = 'Commands: help, about, projects, contact, echo [--braille|--japanese] [text], clear';
+                break;
+            case 'about':
+                response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
+                break;
+            case 'projects':
+                response = 'Projects: Smartly Academy, WellCity, and more.';
+                break;
+            case 'contact':
+                response = 'Email: info@smartbean.ai';
+                break;
+            case 'echo':
+                if (parts[1] === '--braille') {
+                    response = toBraille(parts.slice(2).join(' '));
+                } else if (parts[1] === '--japanese') {
+                    response = toJapanese(parts.slice(2).join(' '));
+                } else {
+                    response = args;
+                }
+                break;
+            case 'clear':
+                terminal.innerHTML = '';
+                return;
+            default:
+                response = `Command not recognized: ${cmd}`;
         }
+        terminal.innerHTML += `<div>${response}</div>`;
+    }
 
-        function processCommand(command) {
-            let response = '';
-            const parts = command.split(' ');
-            const cmd = parts[0].toLowerCase();
-            const args = parts.slice(1).join(' ');
-
-            switch (cmd) {
-                case 'help':
-                    response = 'Commands: help, about, projects, contact, echo [--braille] [text], clear';
-                    break;
-                case 'about':
-                    response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
-                    break;
-                case 'projects':
-                    response = 'Projects: Smartly Academy, WellCity, and more.';
-                    break;
-                case 'contact':
-                    response = 'Email: info@smartbean.ai';
-                    break;
-                case 'echo':
-                    if (parts[1] === '--braille') {
-                        response = toBraille(parts.slice(2).join(' '));
-                    } else {
-                        response = args;
-                    }
-                    break;
-                case 'clear':
-                    terminal.innerHTML = '';
-                    return;
-                default:
-                    response = `Command not recognized: ${cmd}`;
-            }
-            terminal.innerHTML += `<div>${response}</div>`;
-        }
-
-        document.addEventListener('click', () => input.focus());
-        input.addEventListener('focus', () => cursor.style.display = 'inline-block');
-        input.addEventListener('blur', () => cursor.style.display = 'none');
-    </script>
+    document.addEventListener('click', () => input.focus());
+    input.addEventListener('focus', () => { if (cursor) cursor.style.display = 'inline-block'; });
+    input.addEventListener('blur', () => { if (cursor) cursor.style.display = 'none'; });
+</script>
 </body>
 </html>
