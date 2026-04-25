@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartbean AI - Feedback</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #0f0;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #111;
+            border: 1px solid #0f0;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #0f0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #0f0;
+        }
+        input, textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 10px;
+            font-family: inherit;
+            border-radius: 4px;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 50px;
+            width: 100%;
+        }
+        button:hover {
+            background: #4ade80;
+        }
+        .back {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💡 Feedback</h1>
+        <p style="text-align:center; color:#ccc;">We'd love to hear your thoughts!</p>
+
+<form action="https://formsubmit.co/5de96a4967f86b9a90411e7c9d5a4dc0" method="POST">
+      <input type="hidden" name="_next" value="http://10.88.111.13:8000/feedback.html?submitted=true">
+      <input type="hidden" name="_subject" value="New Smartbean Ai Idea Submission">
+      <input type="hidden" name="_captcha" value="false">
+
+            <label>Your Name (optional)</label>
+            <input type="text" name="name" placeholder="Conscious Entity">
+
+            <label>Email (optional)</label>
+            <input type="email" name="email" placeholder="if you'd like a follow up">
+
+            <label>Your Feedback / Ideas</label>
+            <textarea name="feedback" rows="8" placeholder="Type your message here..." required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <div class="back">
+            <a href="index.html" style="color:#0f0; text-decoration:none;">← Back to Terminal</a>
+        </div>
+    </div>
+
+    <script>
+        // Thank you message after submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('submitted') === 'true') {
+                document.querySelector('.container').innerHTML = `
+                    <div style="text-align: center; padding: 3rem 1rem;">
+                        <h1 style="color: #4ade80;">Thank You!</h1>
+                        <p style="color: #ccc; font-size: 1.2rem;">Your feedback has been received.<br>We really appreciate it!</p>
+                        <a href="index.html" style="color:#0f0; text-decoration:none; font-size:1.1em;">← Back to Terminal</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

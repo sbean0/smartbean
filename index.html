@@ -94,7 +94,6 @@
     const terminal = document.getElementById('terminal');
     const input = document.getElementById('input');
 
-    // Command history (up to 5)
     let history = [];
     let historyIndex = -1;
 
@@ -111,10 +110,7 @@
     }
 
     function toJapanese(text) {
-        if (!text.trim()) {
-            return "🇯🇵 Please provide text after --japanese";
-        }
-        // Convert to Katakana using the local WanaKana library
+        if (!text.trim()) return "🇯🇵 Please provide text after --japanese";
         const katakana = wanakana.toKatakana(text);
         return `🇯🇵 ${katakana}`;
     }
@@ -143,44 +139,67 @@
         switch (cmd) {
             case 'help':
                 response = `Available commands:
-  help                    - Show this help
-  about                   - About Smartbean AI
-  projects                - Our projects
-  contact                 - Contact info
-  echo [text]             - Repeat text
-  echo --braille [text]   - Convert to Braille
-  echo --japanese [text]  - Convert to Katakana (Japanese)
-  clear                   - Clear terminal`;
+  help                       - Show this help
+  about                      - About Smartbean AI
+  projects                   - Our projects
+  contact                    - Contact info
+  echo [text]                - Repeat text
+  echo -b|--braille [text]   - Convert to Braille
+  echo -j|--japanese [text]  - Convert to Katakana
+  feedback                   - Open feedback form
+  clear                      - Clear terminal`;
                 break;
+
             case 'about':
                 response = 'Smartbean Ai is dedicated to advancing human potential through AI.';
                 break;
+
             case 'projects':
                 response = 'Projects: Smartly Academy, WellCity, and more.';
                 break;
+
             case 'contact':
                 response = 'Email: info@smartbean.ai';
                 break;
-            case 'echo':
-                if (parts[1] === '--braille') {
-                    response = toBraille(parts.slice(2).join(' '));
-                } else if (parts[1] === '--japanese') {
-                    response = toJapanese(parts.slice(2).join(' '));
-                } else {
-                    response = parts.slice(1).join(' ');
-                }
+
+            case 'feedback':
+                response = '✅ Opening feedback form...';
+                setTimeout(() => {
+                    window.location.href = 'feedback.html';
+                }, 300);
                 break;
+            
+            case 'echo':
+               const flags = parts[1] ? parts[1].toLowerCase() : '';
+               let text = parts.slice(2).join(' ');
+
+               if (!text && (flags === '-b' || flags === '--braille' || flags === '-j' || flags === '--japanese')) {
+               text = parts.slice(1).join(' '); // fallback if flag is last
+               }
+
+               if (flags === '-b' || flags === '--braille') {
+               response = toBraille(text);
+               } else if (flags === '-j' || flags === '--japanese') {
+               response = toJapanese(text);
+               } else {
+               response = parts.slice(1).join(' ');
+               }
+               break;
+
+
+
             case 'clear':
                 terminal.innerHTML = '';
                 return;
+
             default:
                 response = `Command not recognized: ${cmd}`;
         }
+
         terminal.innerHTML += `<div>${response}</div>`;
         terminal.scrollTop = terminal.scrollHeight;
     }
 
-    // Keyboard support for command history
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             handleEnter(e);
