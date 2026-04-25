@@ -31,42 +31,49 @@
         background-color: #111;
         border-bottom: 1px solid #0f0;
     }
-    .prompt {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        background-color: #111;
-        border-top: 1px solid #0f0;
-        cursor: text;
-        gap: 4px;                    /* ← Important for spacing */
-    }
-    .prompt::before {
-        content: "> ";
-        color: #0f0;
-        font-weight: bold;
-        flex-shrink: 0;              /* ← Prevents shrinking */
-        user-select: none;
-    }
-    .input {
-        flex: 1;
-        background: none;
-        border: none;
-        color: #0f0;
-        font-family: inherit;
-        outline: none;
-        font-size: 16px;
-        caret-color: #0f0;
-        min-width: 0;                /* ← Critical fix */
-        padding: 0;
-        margin: 0;
-    }
-    .blinking-cursor {
-        animation: blink 1s step-end infinite;
-        border-left: 8px solid #0f0;
-        height: 1.2em;
-        flex-shrink: 0;              /* ← Keeps cursor in place */
-        margin-left: 2px;
-    }
+   .prompt {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #111;
+    border-top: 1px solid #0f0;
+    cursor: text;
+    gap: 4px;
+    width: 100%;                    /* ← Force full width */
+    box-sizing: border-box;
+}
+
+.prompt::before {
+    content: "> ";
+    color: #0f0;
+    font-weight: bold;
+    flex-shrink: 0;
+    user-select: none;
+    white-space: pre;               /* ← Helps with spacing */
+}
+
+.input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #0f0;
+    font-family: inherit;
+    outline: none;
+    font-size: 16px;
+    caret-color: #0f0;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.blinking-cursor {
+    animation: blink 1s step-end infinite;
+    border-left: 8px solid #0f0;
+    height: 1.2em;
+    flex-shrink: 0;
+    margin-left: 2px;
+    white-space: pre;               /* ← Helps cursor positioning */
+}
     @keyframes blink {
         50% { opacity: 0; }
     }
