@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smartbean Ai</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%230d0d0d%22/><circle cx=%2220%22 cy=%2232%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2220%22 cy=%2252%22 r=%226%22 fill=%22%2300ff41%22/><circle cx=%2244%22 cy=%2212%22 r=%226%22 fill=%22%2300ff41%22/></svg>">
-    <style>
+   <style>
     body {
         font-family: 'Courier New', Courier, monospace;
         background-color: #000;
@@ -38,13 +38,13 @@
         background-color: #111;
         border-top: 1px solid #0f0;
         cursor: text;
-        gap: 4px;
+        gap: 4px;                    /* ← Important for spacing */
     }
     .prompt::before {
         content: "> ";
         color: #0f0;
         font-weight: bold;
-        flex-shrink: 0;
+        flex-shrink: 0;              /* ← Prevents shrinking */
         user-select: none;
     }
     .input {
@@ -56,7 +56,7 @@
         outline: none;
         font-size: 16px;
         caret-color: #0f0;
-        min-width: 0;                /* critical for flex */
+        min-width: 0;                /* ← Critical fix */
         padding: 0;
         margin: 0;
     }
@@ -64,12 +64,13 @@
         animation: blink 1s step-end infinite;
         border-left: 8px solid #0f0;
         height: 1.2em;
-        flex-shrink: 0;
+        flex-shrink: 0;              /* ← Keeps cursor in place */
         margin-left: 2px;
     }
     @keyframes blink {
         50% { opacity: 0; }
     }
+
     @media (max-width: 600px) {
         .header { padding: 5px; }
         .terminal { padding: 10px; }
