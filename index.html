@@ -57,20 +57,10 @@
         font-family: inherit;
         outline: none;
         font-size: 16px;
-        caret-color: #0f0;
+        caret-color: #0f0;           /* real cursor is now green */
         min-width: 0;
         padding: 0;
         margin: 0;
-    }
-    .blinking-cursor {
-        animation: blink 1s step-end infinite;
-        border-left: 8px solid #0f0;
-        height: 1.2em;
-        flex-shrink: 0;
-        white-space: pre;
-    }
-    @keyframes blink {
-        50% { opacity: 0; }
     }
 
     @media (max-width: 600px) {
@@ -81,7 +71,6 @@
         p { font-size: 0.9em; margin: 5px 0; }
     }
 </style>
-    
     
 
 </head>
@@ -95,10 +84,9 @@
         <p>Our mission is to advance humanity's potential through innovative AI solutions.</p>
         <p>Type "help" for available commands.</p>
     </div>
-    <form class="prompt" onsubmit="handleEnter(event)">
+  <form class="prompt" onsubmit="handleEnter(event)">
     <span class="prompt-text">&gt; </span>
     <input type="text" class="input" id="input" autofocus autocomplete="off" spellcheck="false">
-    <span class="blinking-cursor" id="cursor"></span>
 </form>
 
     <script>
