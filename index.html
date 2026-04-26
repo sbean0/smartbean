@@ -158,15 +158,16 @@ function toJapanese(text) {
         switch (cmd) {
             case 'help':
                 response = `Available commands:
-  help                       - Show this help
-  about                      - About Smartbean AI
-  projects                   - Our projects
-  contact                    - Contact info
-  echo [text]                - Repeat text
+  help                   - Show this help
+  about                  - About Smartbean AI
+  projects               - Our projects
+  contact                - Contact info
+  echo [text]            - Repeat text
   echo -b|--braille [text]   - Convert to Braille
   echo -j|--japanese [text]  - Convert to Katakana
-  feedback                   - Open feedback form
-  clear                      - Clear terminal`;
+  
+  feedback               - Open feedback form
+  clear                  - Clear terminal`;
                 break;
 
             case 'about':
