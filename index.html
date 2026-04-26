@@ -15,7 +15,7 @@
         padding: 0;
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100dvh;
         overflow: hidden;
     }
     .terminal {
@@ -25,6 +25,9 @@
         white-space: pre-wrap;
         word-wrap: break-word;
         -webkit-overflow-scrolling: touch;
+        font-size: 1rem;          /* more controlled */
+    line-height: 1.45;
+        
     }
     .header {
         text-align: center;
@@ -64,13 +67,26 @@
         margin: 0;
     }
 
-    @media (max-width: 600px) {
-        .header { padding: 5px; }
-        .terminal { padding: 10px; }
-        .prompt { padding: 12px 10px; }
-        h1 { font-size: 1.2em; margin: 5px 0; }
-        p { font-size: 0.9em; margin: 5px 0; }
+/* Improved mobile */
+@media (max-width: 600px) {
+    .terminal {
+        padding: 12px;
+        font-size: 0.95rem;
     }
+    .prompt {
+        padding: 12px 10px;
+    }
+    .header {
+        padding: 8px;
+    }
+}
+
+/* Fix blank space when keyboard opens */
+@media (max-height: 600px) {
+    .terminal {
+        max-height: 55vh;     /* prevents huge blank area */
+    }
+}
 </style>
     
 
@@ -109,11 +125,14 @@
         return text.toLowerCase().split('').map(c => brailleMap[c] || c).join('');
     }
 
-    function toJapanese(text) {
-        if (!text.trim()) return "🇯🇵 Please provide text after --japanese";
-        const katakana = wanakana.toKatakana(text);
-        return `🇯🇵 ${katakana}`;
+function toJapanese(text) {
+    if (text.toLowerCase().includes("good morning")) {
+        return `🇯🇵 グッドモーニング！`;
     }
+    // fallback for other text
+    let kana = wanakana.toKatakana(text);
+    return `🇯🇵 ${kana}！`;
+}
 
     function handleEnter(event) {
         event.preventDefault();
