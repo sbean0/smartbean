@@ -158,15 +158,16 @@ function toJapanese(text) {
         switch (cmd) {
             case 'help':
                 response = `Available commands:
-  help             - Show this help
-  about            - About Smartbean AI
-  projects         - Our projects
-  contact          - Contact info
-  echo [text]      - Repeat text
+  help          - Show this help
+  about         - About Smartbean AI
+  projects      - Our projects
+  contact       - Contact info
+  echo [text]   - Repeat text
   echo -b|--braille [text] - Convert to Braille
   echo -j|--japanese [text]- Convert to Katakana
-  feedback         - Open feedback form
-  clear            - Clear terminal`;
+  feedback      - Open feedback form
+  shop          - Support our mission
+  clear         - Clear terminal`;
                 break;
 
             case 'about':
@@ -187,38 +188,43 @@ function toJapanese(text) {
                     window.location.href = 'feedback.html';
                 }, 300);
                 break;
-            
+
             case 'echo':
-               const flags = parts[1] ? parts[1].toLowerCase() : '';
-               let text = parts.slice(2).join(' ');
-
-               if (!text && (flags === '-b' || flags === '--braille' || flags === '-j' || flags === '--japanese')) {
-               text = parts.slice(1).join(' '); // fallback if flag is last
-               }
-
-               if (flags === '-b' || flags === '--braille') {
-               response = toBraille(text);
-               } else if (flags === '-j' || flags === '--japanese') {
-               response = toJapanese(text);
-               } else {
-               response = parts.slice(1).join(' ');
-               }
-               break;
-
-
+                const flags = parts[1] ? parts[1].toLowerCase() : '';
+                let text = parts.slice(2).join(' ');
+                if (!text && (flags === '-b' || flags === '--braille' || flags === '-j' || flags === '--japanese')) {
+                    text = parts.slice(1).join(' ');
+                }
+                if (flags === '-b' || flags === '--braille') {
+                    response = toBraille(text);
+                } else if (flags === '-j' || flags === '--japanese') {
+                    response = toJapanese(text);
+                } else {
+                    response = parts.slice(1).join(' ');
+                }
+                break;
 
             case 'clear':
-                terminal.innerHTML = '';
+                terminal.innerHTML = `<p>Welcome to Smartbean Ai.</p>
+<p>Our mission is to advance humanity's potential through innovative AI solutions.</p>
+<p>Type "help" for available commands.</p>`;
                 return;
 
+            // ==================== SHOP COMMAND ====================
+            case 'shop':
+                response = '🌱 Thank you for supporting our mission!<br>Opening Smartbean Shop...';
+                setTimeout(() => {
+                    window.location.href = 'shop.html';
+                }, 400);
+                break;
+
             default:
-                response = `Command not recognized: ${cmd}`;
+                response = `Command not recognized: ${cmd}. Type "help" for available commands.`;
         }
 
         terminal.innerHTML += `<div>${response}</div>`;
         terminal.scrollTop = terminal.scrollHeight;
     }
-
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             handleEnter(e);
